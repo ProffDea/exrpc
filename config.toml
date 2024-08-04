@@ -1,0 +1,22 @@
+[plugin]
+id = "com.sunglasses.exrpc"
+name = "exrpc"
+description = """
+Custom Discord RPC implementation for Exanima
+"""
+version = "1.0.0"
+supported_versions = ["1.0.0"]
+url = ""
+executable = "exrpc.dll"
+enabled = true
+
+[plugin.author]
+name = "Sunglasses"
+contact = ""
+url = ""
+
+[[setting]]
+name = "Activity/Status"
+id = "exrpc_activity"
+description = "Set the activity/status of the Discord RPC"
+default = "Running around..."
