@@ -6,7 +6,7 @@ Custom Discord RPC implementation for Exanima
 """
 version = "1.0.0"
 supported_versions = ["1.0.0"]
-url = ""
+url = "https://github.com/sunglasseslol/exrpc"
 executable = "exrpc.dll"
 enabled = true
 

@@ -18,12 +18,17 @@ mod plugin {
 static mut EXRPC: Lazy<Arc<Mutex<DiscordRPC>>> = Lazy::new(|| Arc::new(Mutex::new(DiscordRPC::new(1263575994686640140))));
 
 unsafe fn exrpc_setup() {
+	let mut plugin = plugin::get();
+	let activity = plugin.read_setting_string("exrpc_activity");
+
+	dbg!(activity);
+
     std::thread::spawn(|| {
         let mut exrpc = EXRPC.lock().unwrap();
         exrpc.start();
         exrpc
             .set_activity(|act| {
-                act.state("asdasd")
+                act.state("activity")
                     .assets(|ass| ass.large_image("exanima"))
             })
             .expect("failed to set activity");
@@ -31,13 +36,13 @@ unsafe fn exrpc_setup() {
 }
 
 unsafe fn exrpc_update(activity: &str) {
-	let updatedActivity = activity.to_string();
+	let activity = activity.to_string();
     std::thread::spawn(|| {
         let mut exrpc = EXRPC.lock().unwrap();
 
 		exrpc
 			.set_activity(|act| {
-				act.state(updatedActivity)
+				act.state(activity).details(":3")
 					.assets(|ass| ass.large_image("exanima"))
 			})
 			.expect("failed to update activity");
