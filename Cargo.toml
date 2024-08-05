@@ -12,6 +12,6 @@ license = { workspace = true }
 crate-type = ["cdylib"]
 
 [dependencies]
-emf-rs = { path = "../../bindings/rust/emf-rs" }
+emf-rs = { git = "https://codeberg.org/ExanimaModding/Toolkit.git", version = "0.1.0-beta.1" }
 log = "0.4.22"
 discord-rpc-client = "^0.4"
