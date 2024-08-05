@@ -18,7 +18,7 @@ mod plugin {}
 
 // Create the DiscordRPC instance.
 static mut EXRPC: Lazy<Arc<Mutex<DiscordRPC>>> =
-	Lazy::new(|| Arc::new(Mutex::new(DiscordRPC::new(1263575994686640140))));
+	Lazy::new(|| Arc::new(Mutex::new(DiscordRPC::new("INSERT YOUR APP ID HERE"))));
 
 static mut ACTIVITY: String = String::new();
 static mut ICON: String = String::new();
