@@ -1,17 +1,13 @@
 [package]
 name = "exrpc"
-version = { workspace = true }
-authors = { workspace = true }
-edition = { workspace = true }
-documentation = { workspace = true }
-homepage = { workspace = true }
-repository = { workspace = true }
-license = { workspace = true }
+version = "0.1.0"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
+discord-rich-presence = "0.2.4"
 emf-rs = { git = "https://codeberg.org/ExanimaModding/Toolkit.git", version = "0.1.0-beta.1" }
 log = "0.4.22"
-discord-rpc-client = "^0.4"
+pretty_env_logger = "0.5.0"
