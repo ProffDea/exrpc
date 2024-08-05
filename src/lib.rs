@@ -8,6 +8,8 @@ use emf_rs::safer_ffi::prelude::char_p;
 use emf_rs::once_cell::sync::Lazy;
 use std::sync::{Arc, Mutex};
 
+use std::{thread, time};
+
 use discord_rpc_client::Client as DiscordRPC;
 
 #[plugin(id = "com.sunglasses.exrpc")]
@@ -16,34 +18,34 @@ mod plugin {
 }
 
 static mut EXRPC: Lazy<Arc<Mutex<DiscordRPC>>> = Lazy::new(|| Arc::new(Mutex::new(DiscordRPC::new(1263575994686640140))));
+static mut activity: String = String::new();
+static mut details: String = String::new();
+static mut icon: String = String::new();
 
 unsafe fn exrpc_setup() {
-	let mut plugin = plugin::get();
-	let activity = plugin.read_setting_string("exrpc_activity");
-
-	dbg!(activity);
-
     std::thread::spawn(|| {
         let mut exrpc = EXRPC.lock().unwrap();
         exrpc.start();
         exrpc
             .set_activity(|act| {
-                act.state("activity")
+                act.state("Running around...")
                     .assets(|ass| ass.large_image("exanima"))
             })
             .expect("failed to set activity");
     });
 }
 
-unsafe fn exrpc_update(activity: &str) {
-	let activity = activity.to_string();
+unsafe fn exrpc_update() {
+	//let mut exrpc = EXRPC.lock().unwrap();
     std::thread::spawn(|| {
-        let mut exrpc = EXRPC.lock().unwrap();
-
+		let mut exrpc = EXRPC.lock().unwrap();
+		dbg!(activity.to_string());
+		dbg!(details.to_string());
+		dbg!(icon.to_string());
 		exrpc
 			.set_activity(|act| {
-				act.state(activity).details(":3")
-					.assets(|ass| ass.large_image("exanima"))
+				act.state(activity.to_string()).details(details.to_string())
+					.assets(|ass| ass.large_image(icon.to_string()))
 			})
 			.expect("failed to update activity");
     });
@@ -68,49 +70,24 @@ pub unsafe extern "C" fn on_message(s: char_p::Box, m: char_p::Box) {
 
 #[no_mangle]
 pub unsafe extern "C" fn setting_changed_bool(name: char_p::Box, value: bool) {
-	// If the ID of a boolean setting starts with `patch::` or `hook::`,
-	// the plugin will automatically enable/disable the corresponding patch/hook.
-
-	// Example:
-	//
-	// [[setting]]
-	// name = "My Setting"
-	// id = "patch::my_patch"
-	//
-	// or
-	//
-	// [[setting]]
-	// name = "My Setting"
-	// id = "hook::my_hook"
-
-	plugin::get().on_setting_changed_bool(name, value, |key, value| {
-		// Do something with this
-		debug!("Setting changed: {} = {}", key, value);
-	});
+	
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn setting_changed_int(name: char_p::Box, value: i32) {
-	plugin::get().on_setting_changed_int(name, value, |key, value| {
-		// Do something with this
-		debug!("Setting changed: {} = {}", key, value);
-	});
+	
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn setting_changed_float(name: char_p::Box, value: f32) {
-	plugin::get().on_setting_changed_float(name, value, |key, value| {
-		// Do something with this
-		debug!("Setting changed: {} = {}", key, value);
-	});
+	
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn setting_changed_string(name: char_p::Box, value: char_p::Box) {
-	let name = name.to_string();
-	let value = value.to_string();
+	if &name.to_string() == "exrpc_activity" { activity = value.to_string(); dbg!(activity.to_string()); }
+	if &name.to_string() == "exrpc_details" { details = value.to_string(); dbg!(details.to_string()); }
+	if &name.to_string() == "exrpc_icon" { icon = value.to_string(); dbg!(icon.to_string()); }
 
-	if &name == "exrpc_activity" {
-		exrpc_update(&value);
-	}
+	exrpc_update();
 }

@@ -12,11 +12,24 @@ enabled = true
 
 [plugin.author]
 name = "Sunglasses"
-contact = ""
-url = ""
+contact = "sunglasses."
+url = "https://github.com/sunglasseslol/exrpc"
 
 [[setting]]
 name = "Activity/Status"
 id = "exrpc_activity"
-description = "Set the activity/status of the Discord RPC"
+description = "Set the activity/status on your profile"
 default = "Running around..."
+
+[[setting]]
+name = "Details"
+id = "exrpc_details"
+description = "Set the details on your profile"
+default = "morning @Jango"
+
+[[setting]]
+name = "Icon"
+id = "exrpc_icon"
+description = "Sets the icon on your profile. Possible icons: exanima, hellmode, modded"
+default = "exanima"
+
