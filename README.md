@@ -1,4 +1,4 @@
-![logo](https://github.com/sunglasseslol/exrpc/blob/master/assets/banner.png)
+<p align="center"><img src="https://github.com/sunglasseslol/exrpc/blob/master/assets/banner.png"></img></p>
 
 # exrpc
 Discord RPC implementation for Exanima using EMTK (Exanima Modding ToolKit)
@@ -15,3 +15,4 @@ thanks to the emtk friends for helping me out a bunch (rie and dea) <3
 
 Unofficial Modding Discord: https://discord.gg/pfZdW9AUbM
 EMTK Discord: https://discord.gg/6bbzGgsNs
+Exanitype for the banner : https://github.com/YewYew/Exanitype
