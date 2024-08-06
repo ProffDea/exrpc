@@ -5,7 +5,7 @@
 <hr>
 <h2>Notes</h2>
 <ul>
-    <h3>There are 4 options (currently) for the <code>Icon</code> field:</h3>
+    <li>There are 4 options (currently) for the <code>Icon</code> field:</li>
     <ul>
         <li>exanima</li>
         <li>modded</li>
