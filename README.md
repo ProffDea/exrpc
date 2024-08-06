@@ -17,7 +17,7 @@
 
 <h2>Credits</h2>
 thanks to the emtk friends for helping me out a bunch (rie and dea) <3
-
+</br>
 Unofficial Modding Discord: https://discord.gg/pfZdW9AUbM
 EMTK Discord: https://discord.gg/6bbzGgsNs
 Exanitype for the banner : https://github.com/YewYew/Exanitype
