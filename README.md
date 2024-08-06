@@ -1,4 +1,4 @@
-[![logo](https://github.com/sunglasseslol/exrpc/blob/master/assets/banner.png)]
+![logo](https://github.com/sunglasseslol/exrpc/blob/master/assets/banner.png)
 
 # exrpc
 Discord RPC implementation for Exanima using EMTK (Exanima Modding ToolKit)
