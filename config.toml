@@ -3,16 +3,26 @@ id = "com.sunglasses.exrpc"
 name = "exrpc"
 description = """
 Custom Discord RPC implementation for Exanima
+
+Credits: 
+thanks to the emtk friends for helping me out a bunch (rie and dea) <3
+
+source code can be found by pressing that button somwhere where it says source
+its also at https://github.com/sunglasseslol/exrpc
+
+check readme.md for other things too
+
+Unofficial Modding Discord: https://discord.gg/pfZdW9AUbM
+EMTK Discord: https://discord.gg/6bbzGgsNs
 """
 version = "1.0.0"
 supported_versions = ["1.0.0"]
 url = "https://github.com/sunglasseslol/exrpc"
 executable = "exrpc.dll"
-enabled = true
+enabled = false
 
 [plugin.author]
 name = "Sunglasses"
-contact = "sunglasses."
 url = "https://github.com/sunglasseslol/exrpc"
 
 [[setting]]

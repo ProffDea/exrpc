@@ -36,7 +36,7 @@ unsafe fn exrpc_setup() {
 	};
 
 	let mut plugin = plugin::get();
-	// Read the strings from the config.toml file (../config.toml OR exanima_dir/mods/exrpc/config.toml))
+	// Read the strings from the config.toml file (../config.toml OR exanima_dir/mods/exrpc/config.toml)
 	ACTIVITY = plugin.read_setting_string("exrpc_activity").unwrap();
 	ICON = plugin.read_setting_string("exrpc_icon").unwrap();
 
