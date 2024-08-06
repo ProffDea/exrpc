@@ -24,8 +24,10 @@ static mut EXRPC: Lazy<Arc<Mutex<DiscordIpcClient>>> = Lazy::new(|| {
 });
 
 static FIRST_RUN: OnceCell<bool> = OnceCell::new();
-static mut ACTIVITY: String = String::new();
+static mut DETAILS: String = String::new();
 static mut ICON: String = String::new();
+static mut STATE: String = String::new();
+static mut STATEENABLED: bool = false;
 
 // Setup or init function
 unsafe fn exrpc_setup() {
@@ -37,8 +39,10 @@ unsafe fn exrpc_setup() {
 
 	let mut plugin = plugin::get();
 	// Read the strings from the config.toml file (../config.toml OR exanima_dir/mods/exrpc/config.toml)
-	ACTIVITY = plugin.read_setting_string("exrpc_activity").unwrap();
+	DETAILS = plugin.read_setting_string("exrpc_details").unwrap();
 	ICON = plugin.read_setting_string("exrpc_icon").unwrap();
+	STATE = plugin.read_setting_string("exrpc_state").unwrap();
+	STATEENABLED = plugin.read_setting_bool("exrpc_stateenabled").unwrap();
 
 	exrpc_update();
 }
@@ -46,16 +50,28 @@ unsafe fn exrpc_setup() {
 unsafe fn exrpc_update() {
 	std::thread::spawn(|| {
 		let mut exrpc = EXRPC.lock().unwrap();
-		info!("Updating activity");
-		// Handle error to prevent mutex being poisoned
-		if let Err(e) = exrpc.set_activity(
-			Activity::new()
-				.state(&ACTIVITY.clone())
-				.assets(Assets::new().large_image(&ICON.clone())),
-		) {
-			return error!("{}", e);
-		};
-		info!("Activity has been updated")
+		info!("Updating presence");
+		if STATEENABLED == true {
+			// Handle error to prevent mutex being poisoned
+			if let Err(e) = exrpc.set_activity(
+				Activity::new()
+					.details(&DETAILS.clone()).state(&STATE.clone())
+					.assets(Assets::new().large_image(&ICON.clone())),
+			) {
+				return error!("{}", e);
+			};
+		}
+		else {
+			// Handle error to prevent mutex being poisoned
+			if let Err(e) = exrpc.set_activity(
+				Activity::new()
+					.details(&DETAILS.clone())
+					.assets(Assets::new().large_image(&ICON.clone())),
+			) {
+				return error!("{}", e);
+			};
+		}
+		info!("Rich presence has been updated")
 	});
 }
 
@@ -87,15 +103,30 @@ pub unsafe extern "C" fn disable() {
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn setting_changed_bool(name: char_p::Box, value: bool) {
+	if &name.to_string() == "exrpc_stateenabled" {
+		STATEENABLED = value;
+		info!("State Checkbox set to {}", STATEENABLED);
+	}
+
+	exrpc_update();
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn setting_changed_string(name: char_p::Box, value: char_p::Box) {
 	if !value.to_string().is_empty() {
-		if &name.to_string() == "exrpc_activity" {
-			ACTIVITY = value.to_string();
-			info!("Activity string set to {}", ACTIVITY);
+		if &name.to_string() == "exrpc_details" {
+			DETAILS = value.to_string();
+			info!("Details string set to {}", DETAILS);
 		}
 		if &name.to_string() == "exrpc_icon" {
 			ICON = value.to_string();
 			info!("Icon string set to {}", ICON);
+		}
+
+		if &name.to_string() == "exrpc_state" {
+			STATE = value.to_string();
+			info!("State string set to {}", STATE);
 		}
 
 		exrpc_update();
